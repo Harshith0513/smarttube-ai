@@ -1,0 +1,56 @@
+import type { Metadata } from 'next';
+
+export const siteConfig: Metadata = {
+	appleWebApp: {
+		title: 'SmartTube AI',
+	},
+	authors: {
+		name: 'Sai Venkata Harshith',
+		url: 'https://github.com/Harshith0513',
+	},
+	description: 'AI-Powered YouTube Clone using Next.js 15 and Mux.',
+	keywords: [
+		'reactjs',
+		'nextjs',
+		'youtube',
+		'youtube-clone',
+		'ai-powered-smarttube-clone',
+		'clerk-auth',
+		'lucide-icons',
+		'react-icons',
+		'mux',
+		'mux-player',
+		'shadcn-ui',
+		'radix-ui',
+		'tailwindcss',
+		'uploadthing',
+		'upstash',
+		'react-query',
+		'openai',
+		'player-style',
+		'trpc',
+		'drizzle-orm',
+		'zod',
+		'sonner',
+		'typescript',
+		'javascript',
+		'vercel',
+		'postcss',
+		'prettier',
+		'eslint',
+		'react',
+		'react-dom',
+		'html',
+		'css',
+		'date-fns',
+		'cn',
+		'clsx',
+		'lucide-react',
+		'neon-db',
+	] as Array<string>,
+	title: 'SmartTube AI | AI-Powered Video Streaming Platform',
+} as const;
+
+export const links = {
+	sourceCode: 'https://github.com/Harshith0513/ai-powered-smarttube-clone',
+} as const;

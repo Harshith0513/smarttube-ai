@@ -1,0 +1,148 @@
+import { TRPCError } from '@trpc/server';
+import { and, count, desc, eq, getTableColumns, inArray, isNotNull, isNull, lt, or } from 'drizzle-orm';
+import { z } from 'zod';
+
+import { CommentSchema } from '@/modules/comments/schema';
+
+import { db } from '@/db';
+import { ReactionType, commentReactions, comments, users } from '@/db/schema';
+import { baseProcedure, createTRPCRouter, protectedProcedure } from '@/trpc/init';
+
+export const commentsRouter = createTRPCRouter({
+	create: protectedProcedure.input(CommentSchema).mutation(async ({ ctx, input }) => {
+		const { id: userId } = ctx.user;
+		const { parentId, value, videoId } = input;
+
+		const [existingComment] = await db
+			.select()
+			.from(comments)
+			.where(inArray(comments.id, parentId ? [parentId] : []));
+
+		if (parentId && !existingComment) {
+			throw new TRPCError({ code: 'NOT_FOUND', message: 'Comment not found!' });
+		}
+
+		if (parentId && existingComment?.parentId) {
+			throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot reply a reply!' });
+		}
+
+		const [comment] = await db.insert(comments).values({ parentId, userId, value, videoId }).returning();
+
+		return comment;
+	}),
+	getMany: baseProcedure
+		.input(
+			z.object({
+				cursor: z
+					.object({
+						id: z.uuid(),
+						updatedAt: z.date(),
+					})
+					.nullish(),
+				limit: z.number().min(1).max(100),
+				parentId: z.uuid().nullish(),
+				videoId: z.uuid(),
+			})
+		)
+		.query(async ({ ctx, input }) => {
+			const { clerkUserId } = ctx;
+			const { cursor, limit, parentId, videoId } = input;
+
+			let userId: string | undefined;
+
+			const [user] = await db
+				.select({ id: users.id })
+				.from(users)
+				.where(inArray(users.clerkId, clerkUserId ? [clerkUserId] : []));
+
+			if (user) userId = user.id;
+
+			const viewerReactions = db.$with('viewer_reactions').as(
+				db
+					.select({
+						commentId: commentReactions.commentId,
+						type: commentReactions.type,
+					})
+					.from(commentReactions)
+					.where(inArray(commentReactions.userId, userId ? [userId] : []))
+			);
+
+			const replies = db.$with('replies').as(
+				db
+					.select({ count: count(comments.id).as('count'), parentId: comments.parentId })
+					.from(comments)
+					.where(isNotNull(comments.parentId))
+					.groupBy(comments.parentId)
+			);
+
+			const dataPromise = db
+				.with(viewerReactions, replies)
+				.select({
+					...getTableColumns(comments),
+					dislikeCount: db.$count(
+						commentReactions,
+						and(eq(commentReactions.type, ReactionType.DISLIKE), eq(commentReactions.commentId, comments.id))
+					),
+					likeCount: db.$count(
+						commentReactions,
+						and(eq(commentReactions.type, ReactionType.LIKE), eq(commentReactions.commentId, comments.id))
+					),
+					replyCount: replies.count,
+					user: users,
+					viewerReaction: viewerReactions.type,
+				})
+				.from(comments)
+				.where(
+					and(
+						eq(comments.videoId, videoId),
+						parentId ? eq(comments.parentId, parentId) : isNull(comments.parentId),
+						cursor
+							? or(
+									lt(comments.updatedAt, cursor.updatedAt),
+									and(eq(comments.updatedAt, cursor.updatedAt), lt(comments.id, cursor.id))
+								)
+							: undefined
+					)
+				)
+				.innerJoin(users, eq(comments.userId, users.id))
+				.leftJoin(viewerReactions, eq(comments.id, viewerReactions.commentId))
+				.leftJoin(replies, eq(comments.id, replies.parentId))
+				.orderBy(desc(comments.updatedAt), desc(comments.id))
+				// Add 1 to the limit to check if there is more data
+				.limit(limit + 1);
+
+			const totalCountPromise = db.$count(comments, eq(comments.videoId, videoId));
+
+			const [data, totalCount] = await Promise.all([dataPromise, totalCountPromise]);
+
+			const hasMore = data.length > limit;
+			// Remove the last item if there is more data
+			const items = hasMore ? data.slice(0, -1) : data;
+			// Set the next cursor to the last item if there is more data
+			const lastItem = items[items.length - 1];
+			const nextCursor = hasMore ? { id: lastItem.id, updatedAt: lastItem.updatedAt } : null;
+
+			return {
+				items,
+				nextCursor,
+				totalCount,
+			};
+		}),
+	remove: protectedProcedure
+		.input(
+			z.object({
+				id: z.uuid(),
+			})
+		)
+		.mutation(async ({ ctx, input }) => {
+			const { id: userId } = ctx.user;
+			const { id } = input;
+
+			const [comment] = await db
+				.delete(comments)
+				.where(and(eq(comments.id, id), eq(comments.userId, userId)))
+				.returning();
+
+			return comment;
+		}),
+});
