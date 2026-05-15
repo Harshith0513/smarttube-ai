@@ -30,7 +30,6 @@
 - [Buy Me a Coffee](#coffee-buy-me-a-coffee)
 - [Follow Me](#rocket-follow-me)
 - [Learn More](#books-learn-more)
-- [Deploy on Vercel](#page_with_curl-deploy-on-vercel)
 - [Give A Star](#star-give-a-star)
 - [Star History](#star2-star-history)
 - [Give A Star](#star-give-a-star)
@@ -127,7 +126,6 @@ ai-powered-smarttube-clone/
   |- postcss.config.mjs
   |- tailwind.config.ts
   |- tsconfig.json
-  |- vercel.ts
 ```
 <!--- FOLDER_STRUCTURE_END --->
 
@@ -314,7 +312,7 @@ ngrok config add-authtoken YOUR_AUTH_TOKEN
 
 ## :gear: Tech Stack
 
-[![React JS](https://skillicons.dev/icons?i=react 'React JS')](https://react.dev/ 'React JS') [![Next JS](https://skillicons.dev/icons?i=next 'Next JS')](https://nextjs.org/ 'Next JS') [![Typescript](https://skillicons.dev/icons?i=ts 'Typescript')](https://www.typescriptlang.org/ 'Typescript') [![Tailwind CSS](https://skillicons.dev/icons?i=tailwind 'Tailwind CSS')](https://tailwindcss.com/ 'Tailwind CSS') [![Vercel](https://skillicons.dev/icons?i=vercel 'Vercel')](https://vercel.app/ 'Vercel')
+[![React JS](https://skillicons.dev/icons?i=react 'React JS')](https://react.dev/ 'React JS') [![Next JS](https://skillicons.dev/icons?i=next 'Next JS')](https://nextjs.org/ 'Next JS') [![Typescript](https://skillicons.dev/icons?i=ts 'Typescript')](https://www.typescriptlang.org/ 'Typescript') [![Tailwind CSS](https://skillicons.dev/icons?i=tailwind 'Tailwind CSS')](https://tailwindcss.com/ 'Tailwind CSS')
 
 ## :wrench: Stats
 
@@ -358,7 +356,6 @@ Original concept and architecture inspired by modern video streaming platforms. 
 - [@types/react-dom](https://www.npmjs.com/package/@types/react-dom): 19.2.3
 - [@uploadthing/react](https://www.npmjs.com/package/@uploadthing/react): ^7.3.2
 - [@upstash/workflow](https://www.npmjs.com/package/@upstash/workflow): ^1.2.0
-- [@vercel/config](https://www.npmjs.com/package/@vercel/config): ^0.0.37
 - [class-variance-authority](https://www.npmjs.com/package/class-variance-authority): ^0.7.1
 - [client-only](https://www.npmjs.com/package/client-only): ^0.0.1
 - [clsx](https://www.npmjs.com/package/clsx): ^2.1.1
@@ -418,13 +415,6 @@ To learn more about Next.js, take a look at the following resources:
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## :page_with_curl: Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 ## :star: Give A Star
 

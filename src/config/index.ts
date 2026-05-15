@@ -34,7 +34,6 @@ export const siteConfig: Metadata = {
 		'sonner',
 		'typescript',
 		'javascript',
-		'vercel',
 		'postcss',
 		'prettier',
 		'eslint',

@@ -30,6 +30,8 @@ export const { POST } = serve(async (ctx) => {
 
 	const transcript = await ctx.run('get-transcript', async () => {
 		if (!video.muxPlaybackId || !video.muxTrackId) throw new Error('Mux playback id or track id not found!');
+		if (video.muxTrackStatus !== 'READY') throw new Error('Transcript not ready!');
+
 		const trackUrl = `${clientEnv.NEXT_PUBLIC_MUX_STREAM_BASE_URL}/${video.muxPlaybackId}/text/${video.muxTrackId}.txt`;
 
 		const response = await fetch(trackUrl);
