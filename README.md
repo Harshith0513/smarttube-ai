@@ -337,7 +337,7 @@ Original concept and architecture inspired by modern video streaming platforms. 
 - [@mux/mux-node](https://www.npmjs.com/package/@mux/mux-node): ^14.0.1
 - [@mux/mux-uploader-react](https://www.npmjs.com/package/@mux/mux-uploader-react): ^1.4.1
 - [@mux/mux-video-react](https://www.npmjs.com/package/@mux/mux-video-react): ^0.30.5
-- [@neondatabase/serverless](https://www.npmjs.com/package/@neondatabase/serverless): ^1.0.2
+- [@neondatabase/serverless](https://www.npmjs.com/package/@neondatabase/serverless): ^1.1.0
 - [@radix-ui/react-avatar](https://www.npmjs.com/package/@radix-ui/react-avatar): ^1.1.11
 - [@radix-ui/react-dialog](https://www.npmjs.com/package/@radix-ui/react-dialog): ^1.1.14
 - [@radix-ui/react-dropdown-menu](https://www.npmjs.com/package/@radix-ui/react-dropdown-menu): ^2.1.15
