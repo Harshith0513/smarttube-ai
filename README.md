@@ -122,6 +122,7 @@ ai-powered-smarttube-clone/
   |- environment.d.ts
   |- eslint.config.mjs
   |- next.config.ts
+  |- package-lock.json
   |- package.json
   |- postcss.config.mjs
   |- tailwind.config.ts
@@ -370,6 +371,7 @@ Original concept and architecture inspired by modern video streaming platforms. 
 - [eslint-config-next](https://www.npmjs.com/package/eslint-config-next): 16.2.4
 - [eslint-config-prettier](https://www.npmjs.com/package/eslint-config-prettier): ^10.1.8
 - [eslint-plugin-prettier](https://www.npmjs.com/package/eslint-plugin-prettier): ^5.5.5
+- [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react): ^7.37.5
 - [eslint-plugin-tailwindcss](https://www.npmjs.com/package/eslint-plugin-tailwindcss): ^3.18.3
 - [jiti](https://www.npmjs.com/package/jiti): ^2.6.1
 - [lucide-react](https://www.npmjs.com/package/lucide-react): ^1.14.0
